@@ -36,9 +36,11 @@ jobs:
     - name: Upload test coverage
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-report
+        name: coverage-report-node-${{ matrix.node-version }}
         path: coverage/
         retention-days: 7
+        if-no-files-found: warn
+        compression-level: 6
 
   lint:
     runs-on: ubuntu-latest
@@ -59,7 +61,6 @@ jobs:
     - name: Check code quality
       run: |
         echo "Running basic code quality checks..."
-        # Check if all test files exist
         if [ ! -f "sum.test.js" ]; then
           echo "❌ Test file missing!"
           exit 1
